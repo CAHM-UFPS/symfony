@@ -38,64 +38,62 @@ class UsuarioController extends AbstractController
     {
         $usuario = new Usuario();
 
-        $usuario->setNombre($request->get('nombre'))
+        try{
+            $usuario->setNombre($request->get('nombre'))
                 ->setApellido($request->get('apellido'))
                 ->setEmail($request->get('email'))
                 ->setSexo($request->get('sexo'));
 
-        $errors = $validator->validate($usuario);
+            $errors = $validator->validate($usuario);
 
-        if (count($errors) > 0) {
-            $errorsString = $errors;
+            if (count($errors) > 0) {
+                return $this->json($errors);
+            }
 
-            return $this->json($errorsString);
+            $usuarioRepository->add($usuario, true);
+        }catch(\Exception $error){
+            return $this->json([
+                'mensaje'=>"No pueden existir campos nulos"
+            ])->setStatusCode(400);
         }
 
-        $usuarioRepository->add($usuario, true);
-
-        return new JsonResponse([
-            'success'=>true,
-            'data'=>[
-                'id'=>$usuario->getId(),
-                'nombre'=>$usuario->getNombre(),
-                'apellido'=>$usuario->getApellido(),
-                'correo'=>$usuario->getEmail(),
-                'sexo'=>$usuario->getSexo()
-            ]
-        ]);
+        return $this->json($usuario);
     }
 
     #[Route('/{id}', name: 'app_usuario_show', methods: ['GET'])]
     public function show(Usuario $usuario): JsonResponse
     {
-        return new JsonResponse([
-            'success'=>true,
-            'data'=>[
-                'id'=>$usuario->getId(),
-                'nombre'=>$usuario->getNombre(),
-                'apellido'=>$usuario->getApellido(),
-                'correo'=>$usuario->getEmail(),
-                'sexo'=>$usuario->getSexo()
-            ]
-        ]);
+        try{
+            return $this->json($usuario);
+        }catch(\Exception $error){
+            return $this->json(['mensaje'=>'Id no encontrado'])->setStatusCode(404);
+        }
     }
 
-    #[Route('/{id}/edit', name: 'app_usuario_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Usuario $usuario, UsuarioRepository $usuarioRepository): JsonResponse
+    #[Route('/{id}/edit', name: 'app_usuario_edit', methods: ['POST'])]
+    public function edit(Request $request, Usuario $usuario, UsuarioRepository $usuarioRepository, ValidatorInterface $validator): JsonResponse
     {
-        $form = $this->createForm(UsuarioType::class, $usuario);
-        $form->handleRequest($request);
+        try{
+            if(!empty($usuarioRepository->find($request->get('id')))){
+                $usuario->setNombre($request->get('nombre'))
+                    ->setApellido($request->get('apellido'))
+                    ->setEmail($request->get('email'))
+                    ->setSexo($request->get('sexo'));
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $usuarioRepository->add($usuario, true);
+                $errores=$validator->validate($usuario);
 
-            return $this->redirectToRoute('app_usuario_index', [], Response::HTTP_SEE_OTHER);
+                if(count($errores)>0) return $this->json($errores);
+
+                $usuarioRepository->add($usuario, true);
+            }
+        }catch(\Exception $error){
+            return $this->json([
+                'mensaje'=>'No pueden existir campos nulos'
+            ])->setStatusCode(400);
         }
 
-        return $this->renderForm('usuario/edit.html.twig', [
-            'usuario' => $usuario,
-            'form' => $form,
-        ]);
+
+        return $this->json($usuario);
     }
 
     #[Route('/{id}', name: 'app_usuario_delete', methods: ['POST'])]

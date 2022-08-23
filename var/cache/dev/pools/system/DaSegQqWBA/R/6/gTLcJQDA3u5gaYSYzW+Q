@@ -1,0 +1,3 @@
+<?php //Doctrine%255CDBAL%255CException%255CDriverException%2523getSQLState
+
+return [PHP_INT_MAX, []];
