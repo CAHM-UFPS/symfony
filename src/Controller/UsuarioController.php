@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/usuario')]
 class UsuarioController extends AbstractController
@@ -21,13 +22,11 @@ class UsuarioController extends AbstractController
 
         foreach ($usuarioRepository->findAll() as $usuario){
             $arregloUsuarios[]=array(
-                'data'=>[
                     'id'=>$usuario->getId(),
                     'nombre'=>$usuario->getNombre(),
                     'apellido'=>$usuario->getApellido(),
                     'email'=>$usuario->getEmail(),
                     'sexo'=>$usuario->getSexo()
-                ]
             );
         }
 
@@ -35,13 +34,22 @@ class UsuarioController extends AbstractController
     }
 
     #[Route('/new', name: 'app_usuario_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, UsuarioRepository $usuarioRepository): Response
+    public function new(Request $request, UsuarioRepository $usuarioRepository, ValidatorInterface $validator): JsonResponse
     {
         $usuario = new Usuario();
+
         $usuario->setNombre($request->get('nombre'))
                 ->setApellido($request->get('apellido'))
                 ->setEmail($request->get('email'))
                 ->setSexo($request->get('sexo'));
+
+        $errors = $validator->validate($usuario);
+
+        if (count($errors) > 0) {
+            $errorsString = $errors;
+
+            return $this->json($errorsString);
+        }
 
         $usuarioRepository->add($usuario, true);
 
@@ -73,7 +81,7 @@ class UsuarioController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_usuario_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Usuario $usuario, UsuarioRepository $usuarioRepository): Response
+    public function edit(Request $request, Usuario $usuario, UsuarioRepository $usuarioRepository): JsonResponse
     {
         $form = $this->createForm(UsuarioType::class, $usuario);
         $form->handleRequest($request);
@@ -91,7 +99,7 @@ class UsuarioController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_usuario_delete', methods: ['POST'])]
-    public function delete(Request $request, Usuario $usuario, UsuarioRepository $usuarioRepository): Response
+    public function delete(Request $request, Usuario $usuario, UsuarioRepository $usuarioRepository): JsonResponse
     {
         $usuarioRepository->remove($usuario, true);
 
