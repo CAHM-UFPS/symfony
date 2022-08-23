@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PedidoController extends AbstractController {
 
     #[Route('/create', name: 'crear_pedido')]
-    public function create(DocumentManager $dm) : JsonResponse{
+    public function create(DocumentManager $dm, Request $request) : JsonResponse{
         $pedido=new Pedido();
 
         $pedido->setNombreProducto("Papas");

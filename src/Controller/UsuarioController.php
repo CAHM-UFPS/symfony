@@ -30,7 +30,7 @@ class UsuarioController extends AbstractController
             );
         }
 
-        return new JsonResponse($arregloUsuarios);
+        return $this->json($arregloUsuarios)->setStatusCode(200);
     }
 
     #[Route('/new', name: 'app_usuario_new', methods: ['GET', 'POST'])]
@@ -47,7 +47,7 @@ class UsuarioController extends AbstractController
             $errors = $validator->validate($usuario);
 
             if (count($errors) > 0) {
-                return $this->json($errors);
+                return $this->json($errors)->setStatusCode(400);
             }
 
             $usuarioRepository->add($usuario, true);
@@ -57,7 +57,7 @@ class UsuarioController extends AbstractController
             ])->setStatusCode(400);
         }
 
-        return $this->json($usuario);
+        return $this->json($usuario)->setStatusCode(200);
     }
 
     #[Route('/{id}', name: 'app_usuario_show', methods: ['GET'])]
@@ -69,7 +69,7 @@ class UsuarioController extends AbstractController
             return $this->json(['mensaje'=>'Id no encontrado'])->setStatusCode(404);
         }
 
-        return $this->json($usuario);
+        return $this->json($usuario)->setStatusCode(200);
     }
 
     #[Route('/{id}/edit', name: 'app_usuario_edit', methods: ['POST'])]
@@ -95,7 +95,7 @@ class UsuarioController extends AbstractController
         }
 
 
-        return $this->json($usuario);
+        return $this->json($usuario)->setStatusCode(200);
     }
 
     #[Route('/{id}', name: 'app_usuario_delete', methods: ['POST'])]
@@ -109,6 +109,6 @@ class UsuarioController extends AbstractController
 
         $repository->remove($usuario, true);
 
-        return $this->json(['mensaje'=>"Usuario Eliminado"]);
+        return $this->json(['mensaje'=>"Usuario Eliminado"])->setStatusCode(200);
     }
 }
