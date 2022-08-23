@@ -1,3 +1,0 @@
-<?php //PDOException%2524errorInfo
-
-return [PHP_INT_MAX, []];

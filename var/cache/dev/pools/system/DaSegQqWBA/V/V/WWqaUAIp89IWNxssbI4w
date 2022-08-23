@@ -1,3 +1,0 @@
-<?php //Doctrine%255CDBAL%255CException%255CConstraintViolationException
-
-return [PHP_INT_MAX, []];

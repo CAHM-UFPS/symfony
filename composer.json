@@ -9,6 +9,7 @@
         "ext-iconv": "*",
         "doctrine/doctrine-bundle": "^2.7",
         "doctrine/doctrine-migrations-bundle": "^3.2",
+        "doctrine/mongodb-odm-bundle": "^4.5",
         "doctrine/orm": "^2.13",
         "sensio/framework-extra-bundle": "^6.2",
         "symfony/console": "6.1.*",
@@ -73,7 +74,7 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false,
+            "allow-contrib": "true",
             "require": "6.1.*"
         }
     },

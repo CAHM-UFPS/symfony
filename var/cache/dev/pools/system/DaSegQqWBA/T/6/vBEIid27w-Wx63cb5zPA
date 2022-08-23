@@ -1,3 +1,0 @@
-<?php //PDOException
-
-return [PHP_INT_MAX, []];

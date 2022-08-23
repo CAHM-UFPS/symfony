@@ -61,13 +61,15 @@ class UsuarioController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_usuario_show', methods: ['GET'])]
-    public function show(Usuario $usuario): JsonResponse
+    public function show(int $id, UsuarioRepository $repository): JsonResponse
     {
-        try{
-            return $this->json($usuario);
-        }catch(\Exception $error){
+        $usuario=$repository->find($id);
+
+        if(!$usuario){
             return $this->json(['mensaje'=>'Id no encontrado'])->setStatusCode(404);
         }
+
+        return $this->json($usuario);
     }
 
     #[Route('/{id}/edit', name: 'app_usuario_edit', methods: ['POST'])]
@@ -97,10 +99,16 @@ class UsuarioController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_usuario_delete', methods: ['POST'])]
-    public function delete(Request $request, Usuario $usuario, UsuarioRepository $usuarioRepository): JsonResponse
+    public function delete(int $id, UsuarioRepository $repository): JsonResponse
     {
-        $usuarioRepository->remove($usuario, true);
+        $usuario=$repository->find($id);
 
-        return new JsonResponse(['success'=>true]);
+        if(!$usuario){
+            return $this->json(['mensaje'=>'Id no encontrado'])->setStatusCode(404);
+        }
+
+        $repository->remove($usuario, true);
+
+        return $this->json(['mensaje'=>"Usuario Eliminado"]);
     }
 }
