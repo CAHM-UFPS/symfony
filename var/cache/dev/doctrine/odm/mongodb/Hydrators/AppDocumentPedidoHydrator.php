@@ -42,12 +42,12 @@ class AppDocumentPedidoHydrator implements HydratorInterface
             $hydratedData['id'] = $return;
         }
 
-        /** @Field(type="string") */
+        /** @Field(type="int") */
         if (isset($data['user_id']) || (! empty($this->class->fieldMappings['user_id']['nullable']) && array_key_exists('user_id', $data))) {
             $value = $data['user_id'];
             if ($value !== null) {
                 $typeIdentifier = $this->class->fieldMappings['user_id']['type'];
-                $return = (string) $value;
+                $return = (int) $value;
             } else {
                 $return = null;
             }

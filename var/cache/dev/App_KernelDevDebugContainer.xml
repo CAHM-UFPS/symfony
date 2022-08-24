@@ -3827,10 +3827,12 @@
         <argument key="validator" type="service_closure" id="validator"/>
       </argument>
     </service>
-    <service id=".service_locator.2RKWD_H" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.gAUDO7R" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
-        <argument key="App\Controller\PedidoController::create" type="service_closure" id=".service_locator.wVIg2DJ"/>
+        <argument key="App\Controller\PedidoController::create" type="service_closure" id=".service_locator.ESSstOY"/>
+        <argument key="App\Controller\PedidoController::delete" type="service_closure" id=".service_locator.wVIg2DJ"/>
+        <argument key="App\Controller\PedidoController::list" type="service_closure" id=".service_locator.wVIg2DJ"/>
         <argument key="App\Controller\PedidoController::read" type="service_closure" id=".service_locator.ESSstOY"/>
         <argument key="App\Controller\UsuarioController::delete" type="service_closure" id=".service_locator.MsgTnMw"/>
         <argument key="App\Controller\UsuarioController::edit" type="service_closure" id=".service_locator.4_2Aiai"/>
@@ -3843,7 +3845,9 @@
         <argument key="kernel::loadRoutes" type="service_closure" id=".service_locator.xUrKPVU"/>
         <argument key="kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.xUrKPVU"/>
         <argument key="kernel::terminate" type="service_closure" id=".service_locator.bRdave9"/>
-        <argument key="App\Controller\PedidoController:create" type="service_closure" id=".service_locator.wVIg2DJ"/>
+        <argument key="App\Controller\PedidoController:create" type="service_closure" id=".service_locator.ESSstOY"/>
+        <argument key="App\Controller\PedidoController:delete" type="service_closure" id=".service_locator.wVIg2DJ"/>
+        <argument key="App\Controller\PedidoController:list" type="service_closure" id=".service_locator.wVIg2DJ"/>
         <argument key="App\Controller\PedidoController:read" type="service_closure" id=".service_locator.ESSstOY"/>
         <argument key="App\Controller\UsuarioController:delete" type="service_closure" id=".service_locator.MsgTnMw"/>
         <argument key="App\Controller\UsuarioController:edit" type="service_closure" id=".service_locator.4_2Aiai"/>
@@ -4165,12 +4169,12 @@
     <service id="debug.argument_resolver.request.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\RequestValueResolver"/>
     <service id="debug.argument_resolver.session.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\SessionValueResolver"/>
     <service id="debug.argument_resolver.service.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
-      <argument type="service" id=".service_locator.2RKWD_H"/>
+      <argument type="service" id=".service_locator.gAUDO7R"/>
     </service>
     <service id="debug.argument_resolver.default.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver"/>
     <service id="debug.argument_resolver.variadic.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\VariadicValueResolver"/>
     <service id="debug.argument_resolver.not_tagged_controller.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
-      <argument type="service" id=".service_locator.2RKWD_H"/>
+      <argument type="service" id=".service_locator.gAUDO7R"/>
     </service>
     <service id=".doctrine.orm.default_metadata_driver.inner" class="Doctrine\Persistence\Mapping\Driver\MappingDriverChain">
       <call method="addDriver">
@@ -4852,7 +4856,7 @@
     <service id="doctrine_mongodb.odm.event_manager" alias="doctrine_mongodb.odm.default_connection.event_manager"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.gSv9zYw" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.2RKWD_H"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.gAUDO7R"/>
     <service id="Psr\Log\LoggerInterface $requestLogger" alias="monolog.logger.request"/>
     <service id="Psr\Log\LoggerInterface $consoleLogger" alias="monolog.logger.console"/>
     <service id="Psr\Log\LoggerInterface $cacheLogger" alias="monolog.logger.cache"/>
@@ -4865,7 +4869,7 @@
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id=".service_locator.0GV1BZZ" alias=".service_locator.gSv9zYw"/>
     <service id=".service_locator.0W3Q_Af" alias=".service_locator.ESSstOY"/>
-    <service id=".service_locator.eqjvaI9" alias=".service_locator.2RKWD_H"/>
+    <service id=".service_locator.C0XBrqq" alias=".service_locator.gAUDO7R"/>
     <service id=".service_locator.CBB_zRA" alias=".service_locator.EU6ZLHl"/>
     <service id=".service_locator.uIVd4li" alias=".service_locator.aYkCapr"/>
     <service id=".service_locator.qBCHs1a" alias=".service_locator.QXcJQkF"/>

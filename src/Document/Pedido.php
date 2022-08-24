@@ -10,7 +10,7 @@ class Pedido{
     #[ODM\Id]
     private $id;
 
-    #[ODM\Field(type: 'string')]
+    #[ODM\Field(type: 'int')]
     #[Assert\NotBlank]
     private $user_id;
 
@@ -104,6 +104,10 @@ class Pedido{
     public function setNombreProducto($nombre_producto): void
     {
         $this->nombre_producto = $nombre_producto;
+    }
+
+    public function calcularTotal(){
+        return $this->getCantidad()*$this->getPrecioUnitario();
     }
 
 }
