@@ -16,10 +16,12 @@ class Pedido{
 
     #[ODM\Field(type: 'int')]
     #[Assert\NotBlank]
+    #[Assert\Regex('/^[1-9]+[0-9]*$/', 'Cantidad debe ser un valor numerico', null, true)]
     private $cantidad;
 
     #[ODM\Field(type: 'float')]
     #[Assert\NotBlank]
+    #[Assert\Regex('/^[1-9]+[0-9]*$/', 'Precio debe ser un valor numerico', null, true)]
     private $precio_unitario;
 
     #[ODM\Field(type: 'string')]

@@ -60,16 +60,22 @@ class UsuarioController extends AbstractController
         return $this->json($usuario)->setStatusCode(200);
     }
 
-    #[Route('/{id}', name: 'app_usuario_show', methods: ['GET'])]
-    public function show(int $id, UsuarioRepository $repository): JsonResponse
+    #[Route('/{email}', name: 'app_usuario_show', methods: ['GET'])]
+    public function show(string $email, UsuarioRepository $repository): JsonResponse
     {
-        $usuario=$repository->find($id);
+        $usuario=$repository->findOneBy(['email'=>$email]);
 
         if(!$usuario){
             return $this->json(['mensaje'=>'Id no encontrado'])->setStatusCode(404);
         }
 
-        return $this->json($usuario)->setStatusCode(200);
+        return $this->json([
+            'nombre'=>$usuario->getNombre(),
+            'apellido'=>$usuario->getApellido(),
+            'full_name'=>$usuario->getNombre()." ".$usuario->getApellido(),
+            'email'=>$usuario->getEmail(),
+            'soy un(a) '.$usuario->getSexo()
+        ])->setStatusCode(200);
     }
 
     #[Route('/{id}/edit', name: 'app_usuario_edit', methods: ['POST'])]

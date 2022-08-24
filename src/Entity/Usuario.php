@@ -18,12 +18,10 @@ class Usuario
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
-    #[Assert\Regex('/\d/', 'No puede ingresar numeros en este campo')]
     private ?string $nombre = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
-    #[Assert\Regex('/\d/', 'No puede ingresar numeros en este campo')]
     private ?string $apellido = null;
 
     #[ORM\Column(length: 255)]

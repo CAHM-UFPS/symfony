@@ -10,12 +10,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/pedido')]
 class PedidoController extends AbstractController {
 
     #[Route('/create', name: 'crear_pedido', methods: ['POST'])]
-    public function create(DocumentManager $dm, UsuarioRepository $usuarioRepository, Request $request) : JsonResponse{
+    public function create(DocumentManager $dm, UsuarioRepository $usuarioRepository, Request $request, ValidatorInterface $validator) : JsonResponse{
         $usuario=$usuarioRepository->findOneBy(['email'=>$request->get('email')]);
 
         if(!$usuario){
@@ -28,6 +29,10 @@ class PedidoController extends AbstractController {
         $pedido->setNombreProducto($request->get('nombre_producto'));
         $pedido->setCantidad($request->get('cantidad'));
         $pedido->setPrecioUnitario($request->get('precio_unitario'));
+
+        $errores=$validator->validate($pedido);
+
+        if(count($errores)>0) return $this->json($errores)->setStatusCode(400);
 
         $dm->persist($pedido); //Preparamos a la bd para recibir los datos
         $dm->flush(); //Ejecutamos el query
@@ -66,8 +71,26 @@ class PedidoController extends AbstractController {
         return $this->json($pedido)->setStatusCode(200);
     }
 
-    public function update(){
+    #[Route('/editar/{id}', name: 'editar_pedido', methods: ['PUT'])]
+    public function update(string $id, DocumentManager $dm, Request $request, ValidatorInterface $validator) : JsonResponse {
+        $pedido=$dm->getRepository(Pedido::class)->find($id); //Busco el pedido por el id del usuario encontrado por email
 
+        if(!$pedido){
+            return $this->json(['mensaje'=> 'Pedido no encontrado'])->setStatusCode(404);
+        }
+        //Modificamos el pedido
+        $pedido->setNombreProducto($request->get('nombre_producto'));
+        $pedido->setCantidad($request->get('cantidad'));
+        $pedido->setPrecioUnitario($request->get('precio_unitario'));
+
+        $errores=$validator->validate($pedido);
+
+        if(count($errores)>0) return $this->json($errores)->setStatusCode(400);
+
+        $dm->persist($pedido);
+        $dm->flush();
+
+        return $this->json($pedido)->setStatusCode(200);
     }
 
     #[Route('/{id}', name: 'delete_pedido', methods: ['DELETE'])]
@@ -75,7 +98,7 @@ class PedidoController extends AbstractController {
         $pedido=$dm->getRepository(Pedido::class)->find($id); //Buscamos el id del pedido
 
         if(!$pedido){
-            return $this->json(['mensaje'=>'Id no encontrado'])->setStatusCode(400);
+            return $this->json(['mensaje'=>'Id no encontrado'])->setStatusCode(404);
         }
 
         $dm->remove($pedido);

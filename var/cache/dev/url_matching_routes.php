@@ -16,24 +16,26 @@ return [
     [ // $regexpList
         0 => '{^(?'
                 .'|/_error/(\\d+)(?:\\.([^/]++))?(*:35)'
-                .'|/pedido/([^/]++)(?'
-                    .'|(*:61)'
-                    .'|(*:68)'
+                .'|/pedido/(?'
+                    .'|([^/]++)(*:61)'
+                    .'|editar/([^/]++)(*:83)'
+                    .'|([^/]++)(*:98)'
                 .')'
                 .'|/usuario/([^/]++)(?'
-                    .'|(*:96)'
-                    .'|/edit(*:108)'
-                    .'|(*:116)'
+                    .'|(*:126)'
+                    .'|/edit(*:139)'
+                    .'|(*:147)'
                 .')'
             .')/?$}sDu',
     ],
     [ // $dynamicRoutes
         35 => [[['_route' => '_preview_error', '_controller' => 'error_controller::preview', '_format' => 'html'], ['code', '_format'], null, null, false, true, null]],
         61 => [[['_route' => 'leer_pedido', '_controller' => 'App\\Controller\\PedidoController::read'], ['email'], ['GET' => 0], null, false, true, null]],
-        68 => [[['_route' => 'delete_pedido', '_controller' => 'App\\Controller\\PedidoController::delete'], ['id'], ['DELETE' => 0], null, false, true, null]],
-        96 => [[['_route' => 'app_usuario_show', '_controller' => 'App\\Controller\\UsuarioController::show'], ['id'], ['GET' => 0], null, false, true, null]],
-        108 => [[['_route' => 'app_usuario_edit', '_controller' => 'App\\Controller\\UsuarioController::edit'], ['id'], ['POST' => 0], null, false, false, null]],
-        116 => [
+        83 => [[['_route' => 'editar_pedido', '_controller' => 'App\\Controller\\PedidoController::update'], ['id'], ['PUT' => 0], null, false, true, null]],
+        98 => [[['_route' => 'delete_pedido', '_controller' => 'App\\Controller\\PedidoController::delete'], ['id'], ['DELETE' => 0], null, false, true, null]],
+        126 => [[['_route' => 'app_usuario_show', '_controller' => 'App\\Controller\\UsuarioController::show'], ['email'], ['GET' => 0], null, false, true, null]],
+        139 => [[['_route' => 'app_usuario_edit', '_controller' => 'App\\Controller\\UsuarioController::edit'], ['id'], ['POST' => 0], null, false, false, null]],
+        147 => [
             [['_route' => 'app_usuario_delete', '_controller' => 'App\\Controller\\UsuarioController::delete'], ['id'], ['POST' => 0], null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],
